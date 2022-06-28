@@ -27,10 +27,10 @@ case class Hangman(
   val MaxIncorrect: Int = 10
 
   // Getters, added to aid testing.
-  def getWord(): String = word
-  def getSoFar(): Map[Char, Boolean] = soFar
-  def getGuesses(): Set[Char] = guesses
-  def getIncorrect(): Set[Char] = incorrect
+  def getWord: String = word
+  def getSoFar: Map[Char, Boolean] = soFar
+  def getGuesses: Set[Char] = guesses
+  def getIncorrect: Set[Char] = incorrect
 }
 
 object Hangman {

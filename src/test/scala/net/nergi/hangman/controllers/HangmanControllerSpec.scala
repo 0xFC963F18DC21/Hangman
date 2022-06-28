@@ -16,20 +16,20 @@ class HangmanControllerSpec extends AnyFlatSpec with Matchers with MockFactory {
 
     // Set all of them to have the word "word".
     val theWord = "word"
-    (noLetterHm.getWord _).when().returns(theWord)
-    (someLetterHm.getWord _).when().returns(theWord)
-    (allLetterHm.getWord _).when().returns(theWord)
+    (() => noLetterHm.getWord).when().returns(theWord)
+    (() => someLetterHm.getWord).when().returns(theWord)
+    (() => allLetterHm.getWord).when().returns(theWord)
 
     // Set their respective guessed states...
-    (noLetterHm.getSoFar _)
+    (() => noLetterHm.getSoFar)
       .when()
       .returns(Map('w' -> false, 'o' -> false, 'r' -> false, 'd' -> false))
 
-    (someLetterHm.getSoFar _)
+    (() => someLetterHm.getSoFar)
       .when()
       .returns(Map('w' -> true, 'o' -> false, 'r' -> true, 'd' -> false))
 
-    (allLetterHm.getSoFar _)
+    (() => allLetterHm.getSoFar)
       .when()
       .returns(Map('w' -> true, 'o' -> true, 'r' -> true, 'd' -> true))
 

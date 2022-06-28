@@ -10,9 +10,9 @@ class HangmanController(initialGame: Hangman = Hangman("")) {
     game = Hangman(word.toLowerCase)
 
   // Get the game representation of the string.
-  def hiddenWord: String = game.getWord().map {
-    case c: Char if game.getSoFar()(c) => c
-    case _                             => '_'
+  def hiddenWord: String = game.getWord.map {
+    case c: Char if game.getSoFar(c) => c
+    case _                           => '_'
   }
 
   // Make a guess and get a string representation of the guess result and current message.

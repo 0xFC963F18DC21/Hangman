@@ -31,8 +31,8 @@ class HangmanSpec extends AnyFlatSpec with Matchers {
 
     game.gameStatus shouldBe expSt
 
-    game.getGuesses() shouldBe expGs
-    game.getIncorrect() shouldBe expIs
+    game.getGuesses shouldBe expGs
+    game.getIncorrect shouldBe expIs
   }
 
   it should "identify correct guesses and display the new hidden word" in {
