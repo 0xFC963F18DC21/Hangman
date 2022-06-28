@@ -1,11 +1,16 @@
 package net.nergi.hangman.models
 
-class Hangman(word: String, soFar: Map[Char, Boolean], guesses: Set[Char], incorrect: Set[Char]) {
+case class Hangman(
+  word: String,
+  soFar: Map[Char, Boolean],
+  guesses: Set[Char],
+  incorrect: Set[Char]
+) {
   import Hangman._
 
   // Get the current status of the game.
   def gameStatus: GameStatus =
-    if (incorrect.size >= 10) Loss
+    if (incorrect.size >= MaxIncorrect) Loss
     else if (soFar.values.forall(identity[Boolean])) Win
     else InProgress
 
@@ -14,14 +19,20 @@ class Hangman(word: String, soFar: Map[Char, Boolean], guesses: Set[Char], incor
     if (guesses.contains(letter))
       (this, AlreadyGuessed)
     else if (!soFar.contains(letter))
-      (new Hangman(word, soFar, guesses + letter, incorrect + letter), Incorrect)
+      (Hangman(word, soFar, guesses + letter, incorrect + letter), Incorrect)
     else
-      (new Hangman(word, soFar.updated(letter, true), guesses + letter, incorrect), Correct)
+      (Hangman(word, soFar.updated(letter, true), guesses + letter, incorrect), Correct)
+
+  // Get the word displayed in play (with hidden letters, etc.).
+  lazy val hiddenWord: String = word.map { c => if (soFar(c)) c else '_' }
+
+  // The number of incorrect guesses that constitute a loss.
+  val MaxIncorrect: Int = 10
 }
 
 object Hangman {
   def apply(word: String): Hangman =
-    new Hangman(word, word.map(c => (c, false)).toMap, Set.empty, Set.empty)
+    Hangman(word, word.map(c => (c, false)).toMap, Set.empty, Set.empty)
 
   // Game status enumeration:
   sealed trait GameStatus
