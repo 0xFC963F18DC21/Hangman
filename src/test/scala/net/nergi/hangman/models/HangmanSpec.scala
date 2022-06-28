@@ -42,4 +42,17 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
     game.guesses shouldBe Set('f')
     game.incorrect shouldBe Set('f')
   }
+
+  it should "signify a loss when the maximum number of incorrect guesses (10) is reached" in {
+    val (game, res) =
+      "efghijklm".foldLeft(Hangman("word")) { case (hm, l) => hm.guess(l)._1 }.guess('n')
+
+    res shouldBe Hangman.Incorrect
+
+    game.gameStatus shouldBe Hangman.Loss
+    game.hiddenWord shouldBe "____"
+
+    game.guesses shouldBe "efghijklmn".toSet
+    game.incorrect shouldBe "efghijklmn".toSet
+  }
 }
