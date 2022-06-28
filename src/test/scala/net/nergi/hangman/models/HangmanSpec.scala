@@ -2,12 +2,11 @@ package net.nergi.hangman.models
 
 import Hangman._
 
-import org.scalamock.scalatest.MockFactory
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.Assertion
 
-class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
+class HangmanSpec extends AnyFlatSpec with Matchers {
   behavior of "the Hangman model"
 
   it should "be a winning game upon start with a blank word" in {
@@ -32,8 +31,8 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
 
     game.gameStatus shouldBe expSt
 
-    game.guesses shouldBe expGs
-    game.incorrect shouldBe expIs
+    game.getGuesses() shouldBe expGs
+    game.getIncorrect() shouldBe expIs
   }
 
   it should "identify correct guesses and display the new hidden word" in {

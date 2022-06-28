@@ -1,10 +1,10 @@
 package net.nergi.hangman.models
 
 case class Hangman(
-  word: String,
-  soFar: Map[Char, Boolean],
-  guesses: Set[Char],
-  incorrect: Set[Char]
+  private val word: String,
+  private val soFar: Map[Char, Boolean],
+  private val guesses: Set[Char],
+  private val incorrect: Set[Char]
 ) {
   import Hangman._
 
@@ -25,6 +25,12 @@ case class Hangman(
 
   // The number of incorrect guesses that constitute a loss.
   val MaxIncorrect: Int = 10
+
+  // Getters, added to aid testing.
+  def getWord(): String = word
+  def getSoFar(): Map[Char, Boolean] = soFar
+  def getGuesses(): Set[Char] = guesses
+  def getIncorrect(): Set[Char] = incorrect
 }
 
 object Hangman {

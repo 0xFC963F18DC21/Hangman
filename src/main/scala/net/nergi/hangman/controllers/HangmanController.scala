@@ -3,16 +3,16 @@ package net.nergi.hangman.controllers
 import net.nergi.hangman.models.Hangman
 import Hangman._
 
-class HangmanController {
-  private var game: Hangman = Hangman("")
+class HangmanController(initialGame: Hangman = Hangman("")) {
+  private var game: Hangman = initialGame
 
   def startGame(word: String): Unit =
     game = Hangman(word.toLowerCase)
 
   // Get the game representation of the string.
-  def hiddenWord: String = game.word.map {
-    case c: Char if game.soFar(c) => c
-    case _                        => '_'
+  def hiddenWord: String = game.getWord().map {
+    case c: Char if game.getSoFar()(c) => c
+    case _                             => '_'
   }
 
   // Make a guess and get a string representation of the guess result and current message.
@@ -37,4 +37,9 @@ class HangmanController {
       case Loss       => (false, "You didn't guess the word!")
       case InProgress => (true, "...")
     }
+}
+
+object HangmanController {
+  def apply(initialGame: Hangman): HangmanController =
+    new HangmanController(initialGame)
 }
