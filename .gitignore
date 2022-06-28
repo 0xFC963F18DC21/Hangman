@@ -17,3 +17,6 @@
 /project/metals.sbt
 /project/.bloop/*
 /.vscode/*
+
+# Ignore local copies of words_alpha.txt.
+words_alpha.txt

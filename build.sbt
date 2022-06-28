@@ -19,6 +19,7 @@ lazy val root = (project in file("."))
     libraryDependencies += "org.eclipse.jetty"  % "jetty-servlet"   % "11.0.11",
     libraryDependencies += "org.scalactic"     %% "scalactic"       % "3.2.12"   % Test,
     libraryDependencies += "org.scalatest"     %% "scalatest"       % "3.2.12"   % Test,
+    libraryDependencies += "org.scalamock"     %% "scalamock"       % "5.1.0"    % Test,
     libraryDependencies += "org.scalacheck"    %% "scalacheck"      % "1.16.0"   % Test,
     libraryDependencies += "org.scalatestplus" %% "scalacheck-1-16" % "3.2.12.0" % Test
   )
