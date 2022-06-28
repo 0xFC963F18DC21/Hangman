@@ -23,10 +23,6 @@ case class Hangman(
     else
       (Hangman(word, soFar.updated(letter, true), guesses + letter, incorrect), Correct)
 
-  // Get the word displayed in play (with hidden letters, etc.).
-  @Deprecated("Use HangmanController.hiddenWord instead!")
-  lazy val hiddenWord: String = word.map { c => if (soFar(c)) c else '_' }
-
   // The number of incorrect guesses that constitute a loss.
   val MaxIncorrect: Int = 10
 }
