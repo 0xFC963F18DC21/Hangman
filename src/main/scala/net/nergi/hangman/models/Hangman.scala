@@ -1,15 +1,12 @@
 package net.nergi.hangman.models
 
-class Hangman(
-  word: String,
-  soFar: Map[Char, Boolean],
-  guesses: Set[Char],
-  incorrectGuesses: Set[Char]
-) {
+class Hangman(word: String, soFar: Map[Char, Boolean], guesses: Set[Char], incorrect: Set[Char]) {
+  import Hangman._
+
   // Get the current status of the game.
   def gameStatus: GameStatus =
-    if (incorrectGuesses.size >= 10) Loss
-    else if (soFar.values.reduce(_ && _)) Win
+    if (incorrect.size >= 10) Loss
+    else if (soFar.values.forall(identity[Boolean])) Win
     else InProgress
 
   // Guess a letter.
@@ -17,9 +14,14 @@ class Hangman(
     if (guesses.contains(letter))
       (this, AlreadyGuessed)
     else if (!soFar.contains(letter))
-      (new Hangman(soFar, guesses + letter, incorrectGuesses + letter), Incorrect)
+      (new Hangman(word, soFar, guesses + letter, incorrect + letter), Incorrect)
     else
-      (new Hangman(soFar.updated(letter, true), guesses + letter, incorrectGuesses), Correct)
+      (new Hangman(word, soFar.updated(letter, true), guesses + letter, incorrect), Correct)
+}
+
+object Hangman {
+  def apply(word: String): Hangman =
+    new Hangman(word, word.map(c => (c, false)).toMap, Set.empty, Set.empty)
 
   // Game status enumeration:
   sealed trait GameStatus
@@ -32,9 +34,4 @@ class Hangman(
   case object Correct extends GuessResult
   case object Incorrect extends GuessResult
   case object AlreadyGuessed extends GuessResult
-}
-
-object Hangman {
-  def apply(word: String): Hangman =
-    new Hangman(word, word.map(c => (c, false)).toMap, Set.empty, Set.empty)
 }
