@@ -3,8 +3,8 @@ package net.nergi.hangman.controllers
 import net.nergi.hangman.models.Hangman
 import Hangman._
 
-class HangmanController(initialGame: Hangman = Hangman("")) {
-  private var game: Hangman = initialGame
+class HangmanController {
+  private var game: Hangman = Hangman("")
 
   def startGame(word: String): Unit =
     game = Hangman(word.toLowerCase)
@@ -40,6 +40,9 @@ class HangmanController(initialGame: Hangman = Hangman("")) {
 }
 
 object HangmanController {
-  def apply(initialGame: Hangman): HangmanController =
-    new HangmanController(initialGame)
+  def apply(initialGame: Hangman): HangmanController = {
+    val hmc = new HangmanController
+    hmc.game = initialGame
+    hmc
+  }
 }
