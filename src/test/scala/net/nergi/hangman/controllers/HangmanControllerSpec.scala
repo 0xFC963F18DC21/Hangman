@@ -61,4 +61,21 @@ class HangmanControllerSpec extends AnyFlatSpec with Matchers with MockFactory {
     (incorrectGuessHm.guess _).verify('w')
     (guessedHm.guess _).verify('w')
   }
+
+  it should "display the correct user-friendly continuation status" in {
+    // Get our mocks...
+    val winHm      = stub[Hangman]
+    val lossHm     = stub[Hangman]
+    val progressHm = stub[Hangman]
+
+    // Set them to return different statuses.
+    (() => winHm.gameStatus).when().returns(Win)
+    (() => lossHm.gameStatus).when().returns(Loss)
+    (() => progressHm.gameStatus).when().returns(InProgress)
+
+    // Check our statuses...
+    HangmanController(winHm).shouldContinue shouldBe (false, "You've guessed the word!")
+    HangmanController(lossHm).shouldContinue shouldBe (false, "You didn't guess the word!")
+    HangmanController(progressHm).shouldContinue shouldBe (true, "...")
+  }
 }
