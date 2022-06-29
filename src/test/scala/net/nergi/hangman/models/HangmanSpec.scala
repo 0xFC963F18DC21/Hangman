@@ -2,12 +2,11 @@ package net.nergi.hangman.models
 
 import Hangman._
 
-import org.scalamock.scalatest.MockFactory
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.Assertion
 
-class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
+class HangmanSpec extends AnyFlatSpec with Matchers {
   behavior of "the Hangman model"
 
   it should "be a winning game upon start with a blank word" in {
@@ -18,16 +17,11 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
     Hangman("word").gameStatus shouldBe InProgress
   }
 
-  it should "show all _s when starting a game" in {
-    Hangman("word").hiddenWord shouldBe "____"
-  }
-
   // Game state checker.
   def assertGameState(
     postGuess: (Hangman, GuessResult),
     expRes: GuessResult,
     expSt: GameStatus,
-    expHw: String,
     expGs: Set[Char],
     expIs: Set[Char]
   ): Assertion = {
@@ -36,10 +30,9 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
     res shouldBe expRes
 
     game.gameStatus shouldBe expSt
-    game.hiddenWord shouldBe expHw
 
-    game.guesses shouldBe expGs
-    game.incorrect shouldBe expIs
+    game.getGuesses shouldBe expGs
+    game.getIncorrect shouldBe expIs
   }
 
   it should "identify correct guesses and display the new hidden word" in {
@@ -47,7 +40,6 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
       Hangman("word").guess('o'),
       Correct,
       InProgress,
-      "_o__",
       Set('o'),
       Set.empty
     )
@@ -58,7 +50,6 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
       Hangman("word").guess('f'),
       Incorrect,
       InProgress,
-      "____",
       Set('f'),
       Set('f')
     )
@@ -69,7 +60,6 @@ class HangmanSpec extends AnyFlatSpec with MockFactory with Matchers {
       "efghijklm".foldLeft(Hangman("word")) { case (hm, l) => hm.guess(l)._1 }.guess('n'),
       Incorrect,
       Loss,
-      "____",
       "efghijklmn".toSet,
       "efghijklmn".toSet
     )
