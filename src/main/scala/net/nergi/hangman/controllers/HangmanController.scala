@@ -2,8 +2,9 @@ package net.nergi.hangman.controllers
 
 import net.nergi.hangman.models.Hangman
 import Hangman._
+import net.nergi.hangman.interfaces.Observable
 
-class HangmanController {
+class HangmanController extends Observable[Unit] {
   private var game: Hangman = Hangman("")
 
   def startGame(word: String): Unit =
@@ -16,7 +17,7 @@ class HangmanController {
   }
 
   // Make a guess and get a string representation of the guess result and current message.
-  def makeGuess(letter: Char): String = {
+  def makeGuess(letter: Char): String = notifyWrap[String]() {
     val (newGame, res) = game.guess(letter.toLower)
 
     // Update the game.
